@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shayam Marble | Premium Marble & Stone Supplier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FFFFFF;
+            --bg-alt: #F8F6F3;
+            --accent-primary: #C8A96E;
+            --accent-hover: #A88A50;
+            --accent-secondary: #2C2C2C;
+            --text-primary: #1A1A1A;
+            --text-muted: #777777;
+            --border-color: #E8E2DA;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --transition: 0.3s ease;
+            --header-h: 80px;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #121212;
+            --bg-alt: #1A1A1A;
+            --accent-secondary: #000000;
+            --text-primary: #F0F0F0;
+            --text-muted: #A0A0A0;
+            --border-color: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color var(--transition), color var(--transition);
+        }
+
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 600; color: var(--text-primary); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        button { cursor: pointer; font-family: var(--font-body); border: none; background: none; transition: var(--transition); }
+
+        /* Helpers */
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 3rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; gap: 2rem; } }
+        
+        /* Buttons */
+        .btn { padding: 12px 28px; font-weight: 500; font-size: 1rem; border-radius: 4px; display: inline-block; text-align: center; }
+        .btn-gold { background: var(--accent-primary); color: #fff; border: 1px solid var(--accent-primary); }
+        .btn-gold:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+        .btn-outline { background: transparent; color: var(--bg-primary); border: 1px solid var(--bg-primary); }
+        .btn-outline:hover { background: var(--bg-primary); color: #000; }
+        
+        /* Layouts */
+        .page { display: none; padding-top: var(--header-h); min-height: 80vh; opacity: 0; animation: fadeIn 0.4s forwards; }
+        .page.active { display: block; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        
+        /* Header */
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; height: var(--header-h); transition: var(--transition); display: flex; align-items: center; border-bottom: 1px solid transparent; }
+        header.scrolled { background: var(--bg-primary); box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-bottom-color: var(--border-color); }
+        header .container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-family: var(--font-heading); font-size: 2rem; font-weight: 700; color: var(--accent-primary); }
+        nav { display: flex; gap: 2rem; align-items: center; }
+        .nav-link { font-weight: 500; position: relative; }
+        .nav-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--accent-primary); transition: var(--transition); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .header-actions { display: flex; gap: 1rem; align-items: center; }
+        .hamburger, .search-toggle { font-size: 1.5rem; display: none; color: var(--text-primary); }
+        @media(max-width: 768px){ 
+            nav { display: none; position: absolute; top: var(--header-h); left: 0; width: 100%; background: var(--bg-primary); flex-direction: column; padding: 2rem; border-bottom: 1px solid var(--border-color); box-shadow: 0 10px 10px rgba(0,0,0,0.05); }
+            nav.mobile-active { display: flex; }
+            .hamburger { display: block; }
+        }
+
+        /* Hero */
+        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; overflow: hidden; margin-top: calc(-1 * var(--header-h)); }
+        .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #2c2c2c, #1a1a1a); z-index: -2; }
+        .hero::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: -1; }
+        .hero h1 { font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 1rem; }
+        .hero p { font-size: 1.25rem; font-weight: 300; margin-bottom: 2rem; }
+        .hero-btns { display: flex; gap: 1rem; justify-content: center; }
+        .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; font-size: 2rem; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translate(-50%, 0);} 40% {transform: translate(-50%, -10px);} 60% {transform: translate(-50%, -5px);} }
+
+        /* Placeholders & Textures */
+        .texture { position: relative; overflow: hidden; }
+        .texture::after { content: ""; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"); pointer-events: none; }
+        .ph-italian { background: linear-gradient(135deg, #f5f5f0, #e8e4de); }
+        .ph-indian { background: linear-gradient(135deg, #eaddcf, #d4c4b7); }
+        .ph-granite { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+        .ph-sandstone { background: linear-gradient(135deg, #d4b896, #c4a882); }
+        .ph-onyx { background: linear-gradient(135deg, #2d5a27, #4a7c59); }
+        .ph-quartzite { background: linear-gradient(135deg, #d9d9d9, #bcbcbc); }
+
+        /* Cards */
+        .card { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; transition: var(--transition); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--accent-primary); }
+        .card-img { height: 250px; width: 100%; object-fit: cover; }
+        .card-body { padding: 1.5rem; text-align: center; }
+        .card-title { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+        /* Sections */
+        .section-pad { padding: 6rem 0; }
+        .bg-alt { background-color: var(--bg-alt); }
+        
+        /* About Home Split */
+        .about-split { align-items: center; }
+        .about-img { height: 600px; border-radius: 8px; }
+        .stats-grid { display: flex; gap: 2rem; margin-top: 2rem; }
+        .stat-item { flex: 1; text-align: center; }
+        .stat-num { font-size: 2.5rem; font-family: var(--font-heading); color: var(--accent-primary); }
+
+        /* Features */
+        .feature-icon { font-size: 2.5rem; color: var(--accent-primary); margin-bottom: 1rem; }
+
+        /* Gallery Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+        .gallery-item { height: 300px; position: relative; cursor: pointer; border-radius: 4px; overflow: hidden; }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay { position: absolute; inset: 0; background: rgba(200, 169, 110, 0.8); display: flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-heading); font-size: 1.5rem; opacity: 0; transition: var(--transition); }
+
+        /* Testimonials */
+        .testimonial-slider { background: var(--accent-secondary); color: #fff; padding: 6rem 0; text-align: center; position: relative; }
+        .testi-content { max-width: 800px; margin: 0 auto; min-height: 200px; }
+        .testi-quote { font-family: var(--font-heading); font-size: 1.5rem; font-style: italic; margin-bottom: 1.5rem; }
+        .stars { color: var(--accent-primary); margin-bottom: 1rem; }
+        .dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #666; cursor: pointer; }
+        .dot.active { background: var(--accent-primary); }
+
+        /* Products Page */
+        .shop-layout { display: flex; gap: 2rem; align-items: flex-start; }
+        .shop-sidebar { width: 250px; flex-shrink: 0; position: sticky; top: calc(var(--header-h) + 20px); }
+        .shop-main { flex: 1; }
+        .filter-group { margin-bottom: 2rem; }
+        .filter-title { font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        .filter-label { display: block; margin-bottom: 0.5rem; cursor: pointer; font-size: 0.95rem; }
+        .search-bar { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 2rem; font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); }
+        @media(max-width: 768px) { .shop-layout { flex-direction: column; } .shop-sidebar { width: 100%; position: static; } }
+
+        /* Product Details */
+        .pd-layout { display: flex; gap: 4rem; margin-top: 2rem; }
+        .pd-img-main { height: 500px; border-radius: 8px; margin-bottom: 1rem; }
+        .pd-thumbnails { display: flex; gap: 1rem; }
+        .pd-thumb { height: 80px; width: 80px; cursor: pointer; border: 2px solid transparent; border-radius: 4px; }
+        .pd-thumb.active { border-color: var(--accent-primary); }
+        .pd-info h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .pd-meta { color: var(--text-muted); margin-bottom: 1.5rem; display: flex; gap: 1rem; }
+        .pd-desc { margin-bottom: 2rem; }
+        .specs-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
+        .specs-table th, .specs-table td { padding: 12px; border: 1px solid var(--border-color); text-align: left; }
+        .specs-table th { background: var(--bg-alt); font-weight: 600; width: 40%; }
+        
+        /* Modals */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: var(--transition); }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-body { background: var(--bg-primary); padding: 3rem; border-radius: 8px; width: 90%; max-width: 500px; position: relative; transform: translateY(20px); transition: var(--transition); }
+        .modal.active .modal-body { transform: translateY(0); }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; color: var(--text-muted); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 4px; font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); }
+        .form-control.error { border-color: red; }
+        .error-msg { color: red; font-size: 0.8rem; display: none; margin-top: 5px; }
+        
+        /* Floating Button */
+        .float-wa { position: fixed; bottom: 30px; right: 30px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: var(--shadow-md); z-index: 100; transition: var(--transition); }
+        .float-wa:hover { transform: scale(1.1); }
+
+        /* Toast */
+        .toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: var(--accent-secondary); color: #fff; padding: 1rem 2rem; border-radius: 4px; z-index: 3000; transition: var(--transition); }
+        .toast.show { bottom: 30px; }
+
+        /* Footer */
+        footer { background: var(--accent-secondary); color: #fff; padding: 4rem 0 2rem; border-top: 3px solid var(--accent-primary); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
+        .footer-title { font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--accent-primary); }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a:hover { color: var(--accent-primary); }
+        .copyright { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #999; }
+
+        /* Scroll Reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Common Hero Banner */
+        .page-hero { background: var(--bg-alt); padding: 4rem 0 2rem; text-align: center; margin-bottom: 3rem; }
+        .page-title { font-size: 3rem; margin-bottom: 0.5rem; }
+        .breadcrumb { color: var(--text-muted); font-size: 0.9rem; }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <a href="#home" class="logo">Shayam Marble</a>
+            <nav id="navbar">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#categories" class="nav-link">Category</a>
+                <a href="#products" class="nav-link">Products</a>
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <button id="theme-toggle" title="Toggle Dark Mode">🌓</button>
+                <button class="hamburger" id="hamburger">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SPA Pages -->
+    <main>
+        <!-- HOME PAGE -->
+        <section id="home" class="page active">
+            <!-- Hero -->
+            <div class="hero">
+                <div class="hero-bg ph-italian texture"></div>
+                <div class="container reveal">
+                    <h1>Crafting Spaces with Timeless Stone</h1>
+                    <p>Premium Marble & Natural Stone Supplier</p>
+                    <div class="hero-btns">
+                        <a href="#products" class="btn btn-gold">Explore Collection</a>
+                        <a href="#contact" class="btn btn-outline">Contact Us</a>
+                    </div>
+                </div>
+                <div class="scroll-indicator">↓</div>
+            </div>
+
+            <!-- Categories Area will be rendered by JS -->
+            <div class="section-pad bg-alt">
+                <div class="container">
+                    <h2 class="section-title reveal">Our Collections</h2>
+                    <div class="grid-4" id="home-categories"></div>
+                </div>
+            </div>
+
+            <!-- Signature Stones will be rendered by JS -->
+            <div class="section-pad">
+                <div class="container">
+                    <h2 class="section-title reveal">Signature Stones</h2>
+                    <div class="grid-3 mb-2" id="home-products"></div>
+                    <div style="text-align:center; margin-top:3rem;">
+                        <a href="#products" class="btn btn-outline" style="color:var(--text-primary); border-color:var(--text-primary);">View All Products</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Us Split -->
+            <div class="section-pad bg-alt">
+                <div class="container">
+                    <div class="grid-2 about-split">
+                        <div class="about-img ph-indian texture reveal"></div>
+                        <div class="about-content reveal">
+                            <h2 style="font-size:2.5rem; margin-bottom:1rem; font-family:var(--font-heading);">About Shayam Marble</h2>
+                            <p style="margin-bottom:1rem; color:var(--text-muted);">For over two decades, Shayam Marble has been at the forefront of the stone industry, sourcing the most exquisite marble and natural stones from across the globe. Our heritage is built on uncompromising quality and a passionate commitment to craftsmanship.</p>
+                            <p style="margin-bottom:2rem; color:var(--text-muted);">Whether creating a luxurious sanctuary or an imposing commercial edifice, our extensive portfolio provides the foundational beauty for masterpieces of architecture.</p>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-num" data-target="500">0</div>
+                                    <div>Products</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-num" data-target="20">0</div>
+                                    <div>Years</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-num" data-target="1000">0</div>
+                                    <div>Clients</div>
+                                </div>
+                            </div>
+                            <a href="#about" class="btn btn-gold" style="margin-top:2rem;">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="section-pad">
+                <div class="container">
+                    <div class="grid-4">
+                        <div class="card card-body reveal">
+                            <div class="feature-icon">💎</div>
+                            <h3 class="card-title">Premium Quality</h3>
+                            <p class="text-muted">Hand-selected blocks ensuring consistency and brilliance.</p>
+                        </div>
+                        <div class="card card-body reveal">
+                            <div class="feature-icon">🏛️</div>
+                            <h3 class="card-title">Wide Selection</h3>
+                            <p class="text-muted">Curated palette of imported and domestic stones.</p>
+                        </div>
+                        <div class="card card-body reveal">
+                            <div class="feature-icon">✂️</div>
+                            <h3 class="card-title">Custom Cutting</h3>
+                            <p class="text-muted">Precision finishing tailored to your exact specifications.</p>
+                        </div>
+                        <div class="card card-body reveal">
+                            <div class="feature-icon">🚚</div>
+                            <h3 class="card-title">Pan-India Delivery</h3>
+                            <p class="text-muted">Logistics network ensuring safe and timely arrival.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kitchen Gallery -->
+            <div class="section-pad bg-alt">
+                <div class="container">
+                    <h2 class="section-title reveal">Marble in Kitchens</h2>
+                    <div class="gallery-grid">
+                        <div class="gallery-item texture ph-italian reveal"><div class="gallery-overlay">View</div></div>
+                        <div class="gallery-item texture ph-granite reveal"><div class="gallery-overlay">View</div></div>
+                        <div class="gallery-item texture ph-onyx reveal"><div class="gallery-overlay">View</div></div>
+                        <div class="gallery-item texture ph-sandstone reveal"><div class="gallery-overlay">View</div></div>
+                        <div class="gallery-item texture ph-indian reveal"><div class="gallery-overlay">View</div></div>
+                        <div class="gallery-item texture ph-quartzite reveal"><div class="gallery-overlay">View</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="testimonial-slider">
+                <div class="container">
+                    <div class="testi-content reveal">
+                        <div class="stars">★★★★★</div>
+                        <div class="testi-quote" id="t-quote">"The Italian marble provided by Shayam transformed our villa entirely. Exceptional service!"</div>
+                        <h4 id="t-name">Ananya Sharma</h4>
+                        <div style="color:#aaa" id="t-city">Mumbai</div>
+                    </div>
+                    <div class="dots" id="t-dots"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORY PAGE -->
+        <section id="categories" class="page">
+            <div class="page-hero">
+                <h1 class="page-title">Our Categories</h1>
+                <div class="breadcrumb">Home / Categories</div>
+            </div>
+            <div class="container section-pad">
+                <div class="grid-4" id="page-categories-grid"></div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS PAGE -->
+        <section id="products" class="page">
+            <div class="page-hero">
+                <h1 class="page-title">Our Products</h1>
+                <div class="breadcrumb">Home / Products</div>
+            </div>
+            <div class="container section-pad">
+                <div class="shop-layout">
+                    <aside class="shop-sidebar reveal">
+                        <input type="text" class="search-bar" id="product-search" placeholder="Search products...">
+                        <div class="filter-group">
+                            <h4 class="filter-title">Category</h4>
+                            <div id="filter-cat"></div>
+                        </div>
+                        <div class="filter-group">
+                            <h4 class="filter-title">Finish</h4>
+                            <label class="filter-label"><input type="checkbox" value="Polished" class="filter-fin"> Polished</label>
+                            <label class="filter-label"><input type="checkbox" value="Honed" class="filter-fin"> Honed</label>
+                            <label class="filter-label"><input type="checkbox" value="Brushed" class="filter-fin"> Brushed</label>
+                        </div>
+                    </aside>
+                    <main class="shop-main">
+                        <div class="grid-3" id="products-grid"></div>
+                    </main>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCT DETAILS PAGE -->
+        <section id="product-details" class="page">
+            <div class="page-hero">
+                <h1 class="page-title">Product Details</h1>
+                <div class="breadcrumb">Home / Products / <span id="pd-crumb-name">Detail</span></div>
+            </div>
+            <div class="container section-pad">
+                <div class="pd-layout">
+                    <div style="flex: 0 0 55%;">
+                        <div class="pd-img-main texture ph-italian" id="pd-img"></div>
+                        <div class="pd-thumbnails" id="pd-thumbs">
+                            <div class="pd-thumb texture ph-italian active"></div>
+                            <div class="pd-thumb texture ph-indian"></div>
+                            <div class="pd-thumb texture ph-onyx"></div>
+                            <div class="pd-thumb texture ph-sandstone"></div>
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <span class="btn" style="background:var(--bg-alt); padding:5px 15px; font-size:0.8rem; margin-bottom:1rem;" id="pd-id">SM-0000</span>
+                        <h1 class="pd-info" id="pd-name" style="font-family:var(--font-heading); font-size:3rem; margin-bottom:0.5rem;">Stone Name</h1>
+                        <div class="pd-meta" id="pd-cat">Category</div>
+                        <p class="pd-desc">This premium stone features a striking visual texture that adds unparalleled elegance to any environment. Perfect for flooring, countertops, and wall claddings.</p>
+                        <table class="specs-table">
+                            <tr><th>Origin</th><td>Imported</td></tr>
+                            <tr><th>Finish</th><td id="pd-fin">Polished</td></tr>
+                            <tr><th>Color</th><td id="pd-col">White</td></tr>
+                            <tr><th>Thickness</th><td>18mm - 20mm</td></tr>
+                        </table>
+                        <button class="btn btn-gold" style="width:100%; margin-bottom:1rem;" onclick="openInquiry()">Inquire Now</button>
+                        <a href="#" class="btn btn-outline" style="width:100%; display:block;">Chat on WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="about" class="page">
+            <div class="page-hero">
+                <h1 class="page-title">About Us</h1>
+                <div class="breadcrumb">Home / About</div>
+            </div>
+            <div class="container section-pad text-center" style="max-width:800px; margin:0 auto; text-align:center;">
+                <h2 style="font-family:var(--font-heading); font-size:2.5rem; margin-bottom:1.5rem;">Our Legacy of Stone</h2>
+                <p style="color:var(--text-muted); font-size:1.1rem; line-height:1.8;">Founded in 2004, Shayam Marble operates with a singular vision: to bring the earth's natural beauty into everyday living spaces. Our sprawling selection encompasses the finest Italian Marbles, dense Granites, and ethereal Onyx series. We believe each slab is a piece of art.</p>
+            </div>
+            <div class="section-pad bg-alt">
+                <div class="container grid-2">
+                    <div class="card card-body"><h3 class="card-title">Our Mission</h3><p>To provide architects and homeowners with exceptional stone materials coupled with unparalleled service.</p></div>
+                    <div class="card card-body"><h3 class="card-title">Our Vision</h3><p>To be the nation's most trusted name in luxury natural stone, pioneering sustainable quarrying and processing.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page">
+            <div class="page-hero">
+                <h1 class="page-title">Contact Us</h1>
+                <div class="breadcrumb">Home / Contact</div>
+            </div>
+            <div class="container section-pad">
+                <div class="grid-2">
+                    <div>
+                        <h2 style="margin-bottom:1.5rem;">Get In Touch</h2>
+                        <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Name *" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Your Email *" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="5" placeholder="Your Message *" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-gold">Send Message</button>
+                        </form>
+                    </div>
+                    <div>
+                        <div class="card card-body" style="text-align:left; margin-bottom:2rem;">
+                            <h3>Head Office</h3>
+                            <p style="margin-top:1rem; color:var(--text-muted);">123 Marble Market, Stone Avenue<br>New Delhi, 110001, India</p>
+                            <p style="margin-top:1rem; color:var(--text-muted);">Phone: +91 98765 43210<br>Email: info@shayammarble.com</p>
+                        </div>
+                        <div class="texture ph-granite" style="height:250px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff;">Map Placeholder</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TERMS & PRIVACY (Basic Layout) -->
+        <section id="terms" class="page">
+            <div class="page-hero"><h1 class="page-title">Terms & Conditions</h1></div>
+            <div class="container section-pad" style="max-width:800px;">
+                <p>Welcome to Shayam Marble. By using our website, you agree to these terms.</p>
+                <h3 style="margin:2rem 0 1rem;">Use of Materials</h3>
+                <p>All content is property of Shayam Marble. Images are representations and natural stone colors may vary.</p>
+            </div>
+        </section>
+        <section id="privacy" class="page">
+            <div class="page-hero"><h1 class="page-title">Privacy Policy</h1></div>
+            <div class="container section-pad" style="max-width:800px;">
+                <p>We respect your privacy. All user information collected is used solely for order processing and direct communication.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h2 class="logo" style="color:#fff; margin-bottom:1rem;">Shayam Marble</h2>
+                    <p style="color:#aaa;">Crafting spaces with timeless stone since 2004.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#terms">Terms and Conditions</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <p style="color:#aaa;">+91 98765 43210<br>info@shayammarble.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Shayam Marble. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WA -->
+    <a href="https://wa.me/919876543210" target="_blank" class="float-wa">💬</a>
+
+    <!-- Inquiry Modal -->
+    <div class="modal" id="inquiry-modal">
+        <div class="modal-body">
+            <button class="modal-close" onclick="closeInquiry()">&times;</button>
+            <h2 style="margin-bottom:1.5rem; font-family:var(--font-heading);">Inquire Now</h2>
+            <form id="inq-form" onsubmit="handleInquirySubmit(event)">
+                <div class="form-group"><input type="text" class="form-control" id="inq-name" placeholder="Name *" required></div>
+                <div class="form-group"><input type="tel" class="form-control" id="inq-phone" placeholder="Phone *" required></div>
+                <div class="form-group"><input type="text" class="form-control" id="inq-product" readonly></div>
+                <div class="form-group"><textarea class="form-control" rows="3" placeholder="Message"></textarea></div>
+                <button type="submit" class="btn btn-gold" style="width:100%">Submit Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div class="modal" id="lightbox-modal">
+        <div class="modal-body" style="background:transparent; padding:0; height:80vh; width:90vw; max-width:none; display:flex; align-items:center; justify-content:center;">
+            <button class="modal-close" style="color:#fff; right:2rem; top:2rem; font-size:2rem;" onclick="document.getElementById('lightbox-modal').classList.remove('active')">&times;</button>
+            <div id="lightbox-img" style="width:100%; height:100%; border-radius:8px;"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Message Sent Successfully!</div>
+
+    <!-- Scripts -->
+    <script>
+        // Data Structure
+        const categories = [
+            { id: 'c1', name: 'Italian Marble', icon: '🏛️', class: 'ph-italian' },
+            { id: 'c2', name: 'Indian Marble', icon: '🏺', class: 'ph-indian' },
+            { id: 'c3', name: 'Granite', icon: '⛰️', class: 'ph-granite' },
+            { id: 'c4', name: 'Sandstone', icon: '🏜️', class: 'ph-sandstone' },
+            { id: 'c5', name: 'Onyx', icon: '💎', class: 'ph-onyx' },
+            { id: 'c6', name: 'Quartzite', icon: '✨', class: 'ph-quartzite' }
+        ];
+
+        const products = Array.from({length: 12}, (_, i) => {
+            const cat = categories[i % categories.length];
+            const finishes = ['Polished', 'Honed', 'Brushed'];
+            const colors = ['White', 'Brown', 'Black', 'Beige', 'Green', 'Grey'];
+            return {
+                id: `SM-00${10 + i}`,
+                name: `${cat.name.split(' ')[0]} Masterpiece ${i+1}`,
+                category: cat.name,
+                class: cat.class,
+                finish: finishes[i % 3],
+                color: colors[i % 6]
+            };
+        });
+
+        // 1. SPA Routing
+        const handleRoute = () => {
+            let hash = window.location.hash || '#home';
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            const target = document.querySelector(hash);
+            if(target) target.classList.add('active');
+            
+            const navLink = document.querySelector(`.nav-link[href="${hash}"]`);
+            if(navLink) navLink.classList.add('active');
+            
+            document.querySelector('nav').classList.remove('mobile-active');
+            window.scrollTo(0,0);
+            
+            if(hash === '#products') renderProducts();
+        };
+        window.addEventListener('hashchange', handleRoute);
+        window.addEventListener('load', handleRoute);
+
+        // 2. Rendering Generators
+        const renderCategoryCards = (containerId) => {
+            const container = document.getElementById(containerId);
+            if(!container) return;
+            container.innerHTML = categories.map(c => `
+                <a href="#products" onclick="setCatFilter('${c.name}')" class="card">
+                    <div class="card-img texture ${c.class}"></div>
+                    <div class="card-body">
+                        <div style="font-size:2rem; margin-bottom:0.5rem">${c.icon}</div>
+                        <h3 class="card-title">${c.name}</h3>
+                    </div>
+                </a>
+            `).join('');
+        };
+        
+        const createProductCard = (p) => `
+            <div class="card">
+                <div class="card-img texture ${p.class}" style="position:relative;">
+                    <span style="position:absolute; top:10px; left:10px; background:rgba(255,255,255,0.9); padding:2px 8px; font-size:0.8rem; font-weight:bold; color:#000; border-radius:2px;">${p.id}</span>
+                </div>
+                <div class="card-body">
+                    <div style="color:var(--text-muted); font-size:0.9rem; margin-bottom:0.5rem;">${p.category}</div>
+                    <h3 class="card-title">${p.name}</h3>
+                    <button class="btn btn-outline" style="width:100%; margin-top:1rem;" onclick="viewProduct('${p.id}')">View Details</button>
+                </div>
+            </div>
+        `;
+
+        // Home init
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCategoryCards('home-categories');
+            renderCategoryCards('page-categories-grid');
+            document.getElementById('home-products').innerHTML = products.slice(0,6).map(createProductCard).join('');
+            
+            // Pop filter categories
+            document.getElementById('filter-cat').innerHTML = categories.map(c => `
+                <label class="filter-label"><input type="checkbox" value="${c.name}" class="filter-cat"> ${c.name}</label>
+            `).join('');
+            
+            // Setup Gallery Lightbox
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const lb = document.getElementById('lightbox-modal');
+                    const lbImg = document.getElementById('lightbox-img');
+                    lbImg.className = item.className.replace('gallery-item', '').replace('reveal', '').replace('visible', '');
+                    lb.classList.add('active');
+                });
+            });
+        });
+
+        // 3. Filtering & Products List
+        const renderProducts = () => {
+            const query = document.getElementById('product-search').value.toLowerCase();
+            const checkedCats = Array.from(document.querySelectorAll('.filter-cat:checked')).map(cb => cb.value);
+            const checkedFins = Array.from(document.querySelectorAll('.filter-fin:checked')).map(cb => cb.value);
+            
+            const filtered = products.filter(p => {
+                const matchQ = p.name.toLowerCase().includes(query) || p.id.toLowerCase().includes(query);
+                const matchC = checkedCats.length === 0 || checkedCats.includes(p.category);
+                const matchF = checkedFins.length === 0 || checkedFins.includes(p.finish);
+                return matchQ && matchC && matchF;
+            });
+            
+            document.getElementById('products-grid').innerHTML = filtered.map(createProductCard).join('') || '<p>No products found.</p>';
+        };
+        
+        document.getElementById('product-search')?.addEventListener('input', renderProducts);
+        document.addEventListener('change', e => { if(e.target.matches('.filter-cat, .filter-fin')) renderProducts(); });
+        
+        const setCatFilter = (name) => {
+            document.querySelectorAll('.filter-cat').forEach(cb => { cb.checked = (cb.value === name); });
+        };
+
+        // 4. Product Details Logic
+        let currentProduct = null;
+        const viewProduct = (id) => {
+            currentProduct = products.find(p => p.id === id);
+            if(!currentProduct) return;
+            
+            document.getElementById('pd-crumb-name').textContent = currentProduct.name;
+            document.getElementById('pd-id').textContent = currentProduct.id;
+            document.getElementById('pd-name').textContent = currentProduct.name;
+            document.getElementById('pd-cat').textContent = currentProduct.category;
+            document.getElementById('pd-fin').textContent = currentProduct.finish;
+            document.getElementById('pd-col').textContent = currentProduct.color;
+            
+            const mainImg = document.getElementById('pd-img');
+            mainImg.className = `pd-img-main texture ${currentProduct.class}`;
+            
+            window.location.hash = '#product-details';
+        };
+
+        // 5. Modals & Forms
+        const showToast = (msg) => {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        };
+
+        const openInquiry = () => {
+            document.getElementById('inquiry-modal').classList.add('active');
+            if(currentProduct) {
+                document.getElementById('inq-product').value = `${currentProduct.id} - ${currentProduct.name}`;
+            }
+        };
+        const closeInquiry = () => document.getElementById('inquiry-modal').classList.remove('active');
+
+        const handleInquirySubmit = (e) => {
+            e.preventDefault();
+            closeInquiry();
+            showToast("Inquiry submitted successfully. We'll contact you soon!");
+            e.target.reset();
+        };
+        const handleContactSubmit = (e) => {
+            e.preventDefault();
+            showToast("Message sent! Thank you for reaching out.");
+            e.target.reset();
+        };
+
+        // 6. Theme and Layout Internals
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            const body = document.body;
+            body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+        });
+
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.querySelector('nav').classList.toggle('mobile-active');
+        });
+
+        window.addEventListener('scroll', () => {
+            // Header sticky effect
+            const header = document.getElementById('header');
+            if(window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+            
+            // Parallax Hero
+            const heroBg = document.querySelector('.hero-bg');
+            if(heroBg && window.scrollY < window.innerHeight) {
+                heroBg.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+            }
+        });
+
+        // 7. Scroll Reveals & Counter
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Counter animation check
+                    if(entry.target.classList.contains('about-content')){
+                        document.querySelectorAll('.stat-num').forEach(el => {
+                            if(el.dataset.animated) return;
+                            el.dataset.animated = true;
+                            const target = parseInt(el.dataset.target);
+                            let count = 0;
+                            const i = setInterval(() => {
+                                count += Math.ceil(target/50);
+                                if(count >= target) { count = target; clearInterval(i); }
+                                el.textContent = count + '+';
+                            }, 30);
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 8. Testimonials Slider
+        const tests = [
+            {q: "The Italian marble provided by Shayam transformed our villa entirely.", n: "Ananya Sharma", c: "Mumbai"},
+            {q: "Unmatched quality and finishing. Delivered seamlessly to our site.", n: "Rahul Desai", c: "Delhi"},
+            {q: "Their Granite selection is huge and pricing is very competitive.", n: "Sonia Kapoor", c: "Bangalore"}
+        ];
+        let tIndex = 0;
+        const tQuote = document.getElementById('t-quote');
+        const tName = document.getElementById('t-name');
+        const tCity = document.getElementById('t-city');
+        const tDots = document.getElementById('t-dots');
+        
+        tDots.innerHTML = tests.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="setTesti(${i})"></div>`).join('');
+        
+        window.setTesti = (i) => {
+            tIndex = i;
+            document.querySelectorAll('.dot').forEach((d, id) => d.classList.toggle('active', id===i));
+            tQuote.style.opacity = 0;
+            setTimeout(() => {
+                tQuote.textContent = `"${tests[i].q}"`;
+                tName.textContent = tests[i].n;
+                tCity.textContent = tests[i].c;
+                tQuote.style.opacity = 1;
+            }, 300);
+        };
+        
+        setInterval(() => {
+            setTesti((tIndex + 1) % tests.length);
+        }, 5000);
+
+    </script>
+</body>
+</html>
